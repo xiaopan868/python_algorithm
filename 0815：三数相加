@@ -1,0 +1,16 @@
+nums = [-1,0,1,2,-1,-4]
+result = []
+result_all = []
+# 列表值排序，为去重做准备
+nums.sort()
+
+for x in range(len(nums)):
+    for y in range(x+1,len(nums)):
+        for z in range(y+1,len(nums)):
+            if nums[x]+nums[y]+nums[z] == 0:
+                result = [nums[x],nums[y],nums[z]]
+                # 列表去重处理
+                if result not in result_all:
+                    result_all.append(result)
+
+print(result_all)
