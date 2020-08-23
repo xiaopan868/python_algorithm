@@ -1,0 +1,14 @@
+nums = [1,1,2]
+
+idx = 0
+#for循环容易溢出列表的长度时，可考虑变更成while循环，这样更直观查看列表的值
+
+while idx < len(nums)-1:
+
+    #相同的值直接丢弃即可
+    if nums[idx] == nums[idx+1]:
+        nums.pop(idx)
+    else:
+        idx +=1
+
+print(nums)
