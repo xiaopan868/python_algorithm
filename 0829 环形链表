@@ -9,8 +9,38 @@ https://leetcode-cn.com/problems/linked-list-cycle
 故可进一步理解题目可变成检查多次循环后，指针p1能否在达到尾部前，会跟指针p2指向同一个位置。是的话，则说明此列表是环形的，否则不是环形的。
 
 
-单链表：每个结点不仅包含值，还包含链接到下一个结点的引用字段。通过这种方式，单链表将所有结点按顺序组织起来。
+链表是一种数据结构，由许多称为“节点”的迷你数据结构组成。节点链接在一起形成一个列表。
+https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/08/05/screen-shot-2018-04-12-at-152754.png
+
+单链表想访问下一个节点的值需使用XX.next的方式
+
+每个节点包含2个属性：
+1.它的价值。可以是任何东西：整数，字符，字符串，对象等
+2.指向序列中下一个节点的指针
+
+头节点：头节点是链表的第一个节点；尾节点：序列中最后一个节点，由于是最后一个节点，因此它指向null。
+
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+
+        #检查单链表是否仅包含一个节点，是的话，直接返回false
+        if(head == None or head.next == None): 
+            return False
+
+        #分别将快慢指针指向单链接的头节点
+        slow = head
+        fast = head
+
+        #快慢指针未相遇时，继续循环
+        while(slow != fast):
+            #快指针指向单链表的尾节点的时候，则说明此链表非环形
+            if(fast == None or fast.next == None):
+                return False
+            #快指针走两格，慢指针走一格
+            slow = slow.next
+            fast = fast.next.next
+        return True
 
 
-我们想要获得第i个元素，我们必须从头结点逐个遍历。
-头结点是23。访问第3个结点的唯一方法是使用头结点中的“next”字段到达第2个结点（结点6）; 然后使用结点6的“next”字段，我们能够访问第3个结点
+
+
