@@ -10,3 +10,24 @@ PS.第一个数和第二个数是1
 PS.f(n) = f(n-1) + f(n-2)
 
 https://www.zhihu.com/question/31412436
+
+
+https://leetcode-cn.com/problems/swap-nodes-in-pairs/
+题目主要考察，链表中的有超过2个以上的值的时，需要两两交换相邻两个节点，可考虑通过递归的方式实现
+
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+
+        # 单链表为空或单链表只有一个节点，则直接返回头结点
+        if not head or not head.next:
+            return head
+
+        # 给第一个节点和第二个节点分别赋值
+        first_node = head
+        second_node = head.next
+
+        # 交互两个节点的值
+        first_node.next  = self.swapPairs(second_node.next)
+        second_node.next = first_node
+
+        return second_node
