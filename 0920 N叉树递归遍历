@@ -1,0 +1,3 @@
+https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/
+
+N叉树有三种遍历方式：先序遍历，中序遍历，后续遍历  即：先中后指的是访问根节点的顺序，遍历总体思路：将树分成最小的子树，然后按照顺序输出
