@@ -1,3 +1,38 @@
 https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/
 
-N叉树有三种遍历方式：先序遍历，中序遍历，后续遍历  即：先中后指的是访问根节点的顺序，遍历总体思路：将树分成最小的子树，然后按照顺序输出
+N叉树有三种遍历方式：先序遍历，中序遍历，后续遍历，遍历总体思路：将树分成最小的子树，然后按照顺序输出
+![](https://pic.leetcode-cn.com/bd95aab8e74b7b999fc7cc826fd01377b6c5ed95ff1dd54ff43085b022293f36-file_1587549768626)
+先序遍历：从根节点出发，
+
+
+class Solution:
+    def preorder(self, root: 'Node') -> List[int]:
+
+        # 树只有一个节点，直接返回空列表
+        if root == None:
+            return []
+        
+        # 递归函数，将树的节点作为root
+        def dfs(root,res):
+            # 树的节点为空，则代表该节点已被遍历
+            if root == None:
+                return
+                
+            # 将节点的位置添加到列表中
+            res.append(root.val)
+
+            # 节点下无任何子节点，则代表该节点已被遍历
+            if root.children == None:
+                return
+            
+            # 遍历节点的所有子节点
+            for chrid in root.children:
+                dfs(chrid,res)
+
+        res = []
+        dfs(root,res)
+
+        return res
+
+
+
