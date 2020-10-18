@@ -1,17 +1,19 @@
+https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
 
-
+使用递归算法：
 
 class Solution:
     def preorderTraversal(self, root: TreeNode) -> List[int]:
 
         res = []
 
-        # 树只有一个节点，直接返回
+        # 树只有一个节点，递归结束条件
         if root == None:
             return res
 
         res.append(root.val)
-
+        
+        # extend将两个列表相加起来
         if root.left:
             res.extend(self.preorderTraversal(root.left))
 
@@ -19,3 +21,5 @@ class Solution:
             res.extend(self.preorderTraversal(root.right))
 
         return res
+        
+ 迭代算法下周需研究
