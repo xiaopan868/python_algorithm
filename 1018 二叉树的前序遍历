@@ -1,0 +1,21 @@
+
+
+
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+
+        res = []
+
+        # 树只有一个节点，直接返回
+        if root == None:
+            return res
+
+        res.append(root.val)
+
+        if root.left:
+            res.extend(self.preorderTraversal(root.left))
+
+        if root.right:
+            res.extend(self.preorderTraversal(root.right))
+
+        return res
