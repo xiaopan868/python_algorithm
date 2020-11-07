@@ -1,0 +1,44 @@
+https://leetcode-cn.com/problems/generate-parentheses/
+
+分析题目，有效括号的条件:
+1.左括号和右括号相等
+2.在括号字符串中的任一前缀，右括号的数量不大于左括号的数量【即前缀为‘()’,后面一个字符只能是“(”】
+
+回溯法：
+1.发现左括号的值小于n的时候，可填入(
+2.发现右括号数量小于左括号数量的时候，可填入)
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        self.res = []
+        self.dfs('',0,0,n)
+        return self.res
+
+    def dfs(self,curStr,left, right, n):
+        if (left == n and right == n):       # 左右等号遍历等于n后，结束递归
+            self.res.append(curStr) 
+        if left < n:                         # 左括号的值小于总数量的值，可填入(
+            self.dfs(curStr + "(",left + 1,right,n)
+        if right < left:                     # 右括号数量值小于左括号，可填入)
+            self.dfs(curStr + ")",left, right +1,n)
+           
+递归：需找到f(i)和f(i-1)之间的规律，还有递归结束的条件
+n = 2
+f(1):["()"]
+f(2):["()()","(())"]
+f(3):["(())()","()()()","()(())","(()())","((()))","(()())"【跟前面有重复，需要去重】]
+通过规律可知，需要将f(1)插入到f(i-1)的所有元素中
+class Solution:
+    def generateParenthesis(self,n) :
+        if n == 0:
+            return list()
+        if n == 1:
+            return ["()"]
+        res = set()
+        tmp = self.generateParenthesis(n - 1)
+        for s in tmp:
+            for i in range(len(s)):
+                tmp = s[:i] + "()" + s[i:]
+                res.add(tmp)
+
+        return list(res)
