@@ -1,0 +1,32 @@
+https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days/
+
+分析题目，结果一定落在数列最大值Max(weights)和全部相加起来Sum(weights)中，可借助二分法来动态调整值
+二分法：
+
+class Solution:
+    def shipWithinDays(self, weights: List[int], D: int) -> int:
+        
+        """
+        结果一定落在数列最大值Max(weights)和全部相加起来Sum(weights)中，
+        可利用二分法，每一次循环模拟运货的过程，根据需要的天数与 输入 D 的关系来调整区间左右端点。
+        """
+        lo, hi = max(weights), sum(weights)
+        while(lo < hi):
+            mid = (lo + hi)// 2 # mid 即为当前运送的capacity
+            
+            #------以下为模拟运货的过程，temp表示当天这条船承载的重量，day表示已用的天数-------
+            temp = 0
+            day = 1
+            for weight in weights:
+                temp += weight
+                if temp > mid:# 当前货运不动 需要新的一艘船才行
+                    day += 1
+                    temp = weight
+            #------以上为模拟运货的过程-----------------
+            
+            if day > D: # 当前的capacity太小了，不够，需要更大容量才能及时运完
+                lo = mid + 1
+            elif day <= D:
+                hi = mid
+
+        return lo
