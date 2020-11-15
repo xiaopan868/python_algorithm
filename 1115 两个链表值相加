@@ -1,10 +1,9 @@
 https://leetcode-cn.com/problems/add-two-numbers/
 
 分析题目：
-长度较短的链表在末尾补零使得两个链表长度相等，再一个一个元素对齐相加(需考虑进位)
-1.获得两个链表所对应的长度
-2.在较短的链表末尾补零
-3.对齐相加考虑进位
+1.当其中一个相加的链表的值为空的话，直接返回非空链表的值
+2.当相加的两个链表的值未到尾端的时候，对齐相加两个链表的值
+3.需要有标志位来记住进位的值
 
 # Definition for singly-linked list.
 # class ListNode:
@@ -12,60 +11,36 @@ https://leetcode-cn.com/problems/add-two-numbers/
 #         self.val = val
 #         self.next = next
 class Solution:
-    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        """
-        1.获得两个链表所对应的长度
-        2.在较短的链表末尾补零
-        3.对齐相加考虑进位  
-        """
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode: 
+        if l1 is None:
+            return l2
+        if l2 is None:
+            return l1
+        # tmp是暂存（temporal）
+        tmp = ListNode(0)  # 引用ListNode类定义了一个链表节点并赋给tmp,tmp和res指向头节点，tmp用来最后返回，res用来遍历
+        # res是重置（reset）
+        res = tmp  # 赋值
+        # flag 标示
+        flag = 0  # 初始化
+        while l1 or l2:  # l1或l2不为空就持续执行
+            tmp_sum = 0  # 链表节点值的和
+            if l1:  # 如果l1不为空，把l1的某个节点值的和赋给tmp_sum
+                tmp_sum = l1.val  # 把l1的某个节点的值赋给tmp_sum
+                l1 = l1.next
+            if l2:  # 如果l2不为空，把l2中和l1对应的节点的值加到tmp_sum
+                tmp_sum += l2.val
+                l2 = l2.next  # 指向下一个节点，为下一次的加和做准备
+            tmp_res = ((tmp_sum + flag) % 10)  # 个位数字
+            flag = ((tmp_sum + flag) // 10)  # 进位的数
+            res.next = ListNode(tmp_res)
+            res = res.next  # res后移
+            
+        if flag:   #遍历到链表的最后，发现进位标志位为1，则继续在链表后面加一个节点
+            res.next = ListNode(1)  # res的下一节点设为1
+       
+        # 返回tmp的下一个节点, 因为tmp指向的是空的头结点, 下一个节点才是新建链表的后序节
+        res = tmp.next  # 赋值
+        return res
 
-        # 1.获得两个链表的长度
-        def lenList(self,head):
-            len_List = 0
-
-            if head == None or head.next == None:
-                len_List = 1
-
-            else:
-                while head.next:
-                    len_List +=1
-                    head = head.next
-
-            return len_List
-
-        # 2.较短的链表末尾补零
-        if lenList(l1) > lenList(l2):
-            temp = lenList(l1) - lenList(l2)
-
-            while temp:
-                l2.tail.next = 0
-                temp -= 1
-
-        elif(lenList(l1) == lenList(l2)):
-            pass
-
-        else:
-            temp = lenList(l2) - lenList(l1)
-
-            while temp:
-                l1.tail.next = 0
-                temp -= 1
-
-       # 3.对齐相加考虑进位的问题
-       start = ListNode(None)
-       temp = 0
-
-       while lenList(l1):
-           temp_result = l1.val + l2.val + temp
-           if temp_result >= 10:
-               temp_result = temp_result - 10
-               temp = 1
-            else:
-                start.val = temp_result
-                temp = 0
-            l1 = l1.next
-            l2 = l2.next
-            lenList(l1) -= 1
-        return start.next
         
 
