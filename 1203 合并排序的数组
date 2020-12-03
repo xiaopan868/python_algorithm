@@ -1,0 +1,20 @@
+https://leetcode-cn.com/problems/sorted-merge-lcci/
+
+查看题目，得出解答方案：
+1.直接将列表B的值插入到列表A中填充的位置，即A[m:] = B
+  复习切片知识：如果赋值的对象是一个切片，那么赋值语句的右侧必须是个可迭代对象。即便只有单独一个值，也要把它转换成可迭代的序列
+  如A = [1,2,3,0] B = 4 C = [4]，其中C可以填充到列表A中，B不行，因为B不是一个可迭代的对象，查看一个数据元素是否可迭代可通过
+  from collections import Iterable
+  isinstance('abc',Iterable) 返回为true表示可迭代
+  
+ 2.对数列进行排序，需使用A.sort()方式，而不能使用sorted(A)方式。
+ 两者的差别在于A.sort()是直接对列表A进行就地排序，改变的就是列表A的值；而sorted(A)会新生成一个列表newA，对newA进行排序，列表A的值不会变化
+ 
+ class Solution:
+    def merge(self, A: List[int], m: int, B: List[int], n: int) -> None:
+        """
+        Do not return anything, modify A in-place instead.
+
+        """
+        A[m:] = B
+        return A.sort()
