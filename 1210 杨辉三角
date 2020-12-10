@@ -1,0 +1,32 @@
+https://leetcode-cn.com/problems/sorted-merge-lcci/
+
+汇总问题：
+1.看到题目想到了使用递归方式完成下一行的输出值由上一行的值相加得来
+2.关于头尾强制写1的问题，思考过于复杂，写的有点问题
+3.相加的代码一直报列表越界的问题，有问题代码如下：
+def generate(num):
+    if num ==1 :
+        return [1]
+    elif num == 2:
+        return [1,1]
+    else:
+        preRow = generate(num-1)
+        curRow = [0] * (num)
+
+        curRow[0] = curRow[num-1] = 1
+
+        for i in range(len(preRow)-2):
+            curRow[i+1] = preRow[i] + preRow[i+1]
+
+        return curRow
+        
+ 问题来自于for循环这句代码中的len(preRow)，没有考虑到递归是会一直递归的最后一层，这样在判断列表长度的时候会存在越界的问题
+ 
+ 需修改成for i in range(preRow-2)就不会报错了，可输出正确答案
+ 
+ 吸取经验：
+ 1.涉及递归的算法，尽量以一些确认的值作为循环的判断条件，而不是用一些可变的值，不然容易越界
+ 2.涉及列表的问题，可尝试用行row和line的方式标识列表中的每个值，从而进一步发现规律
+ 3.修改列表里单个index值，可直接采用对列表赋值的方式；修稿列表里多个地方的值，采用切片的方式，赋值的右边也需要是可迭代的对象
+
+
