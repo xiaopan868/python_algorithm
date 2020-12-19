@@ -1,0 +1,23 @@
+https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
+
+鼓励的地方：
+1.拿到题目想到了一个一个遍历字符串中的字符，没有重复的部分就加到临时字符串里，有重复的就不加
+
+思考不足的地方：
+1.对于有重复的部分，该怎么处理思考不够
+2.没有想到需要存储最大子字符串的长度
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        sub = ''            // 临时存储子字符串
+        length = 0
+
+        for i in s:
+            if i not in sub:
+                sub += i
+                length = max(length,len(sub))       // 存储遇到的子字符串的最长长度的
+            else:
+                sub = sub[sub.index(i)+1:]         //  如果遇到了已经存在的字符，则找到该字符所在位置，删除该字符，并保留该位置之后的子串，并把当前字符加入到最后，完成更新
+                sub += i
+
+        return length
