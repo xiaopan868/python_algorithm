@@ -31,30 +31,28 @@ https://leetcode-cn.com/problems/longest-palindromic-substring/
     if len(s) == 1:
        return s
        
-从整体代码来看，本人觉得已经没有问题，但在实际运行过程中依旧存在不通过的场景，主要集中在选择回文起点的问题上，以上代码强制规定了起点，但对于类似Adam这种的字符串却没有办法覆盖，
-需调整字符串的起点，需遍历整个字符串，这样整体运算较慢，
+从整体代码来看，本人觉得已经没有问题，但在实际运行过程中依旧存在不通过的场景，主要集中在选择回文起点的问题上，以上代码缺少了一些场景的考虑，会存在部分字符串不通过的场景，比如Adam/add等，
+所以需要进一步考虑场景，需要将字符串的每一个字段当作回文中心的起点
 
-从网上找了一个大神解法
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        # 如果字符串长度小于2或者s等于它的倒序，则直接返回s
-        if len(s) < 2 or s == s[::-1]:
-            return s
-        n = len(s)
-        # 定义起始索引和最大回文串长度，odd奇，even偶
-        start, maxlen = 0, 1
-        # 因为i=0的话必然是不可能会有超过maxlen情况出现，所以直接从1开始
-        for i in range(1, n):
-            # 取i及i前面的maxlen+2个字符
-            odd = s[i - maxlen - 1:i + 1]  # len(odd)=maxlen+2
-            # 取i及i前面的maxlen+1个字符
-            even = s[i - maxlen:i + 1]  # len(even)=maxlen+1
-            if i - maxlen - 1 >= 0 and odd == odd[::-1]:
-                start = i - maxlen - 1
-                maxlen += 2
-                continue
-            if i - maxlen >= 0 and even == even[::-1]:
-                start = i - maxlen
-                maxlen += 1
-        return s[start:start + maxlen]
+        if not s or len(s) < 1:
+            return ""
+            
+        def expandAroundCenter(left, right):
+            L, R = left, right
+            while L >= 0 and R <len(s) and s[L] == s[R]:
+                L -= 1
+                R += 1
+            return R - L - 1
+
+        left, right = 0, 0
+        for i in range(len(s)):
+            len1 = expandAroundCenter(i, i) # 奇数
+            len2 = expandAroundCenter(i, i+1) # 偶数
+            max_len = max(len1, len2)
+            if max_len > right - left:
+                left = i - (max_len - 1)//2
+                right = i + max_len//2
+        return s[left:right+1]
 
