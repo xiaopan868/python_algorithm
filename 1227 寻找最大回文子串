@@ -1,0 +1,60 @@
+https://leetcode-cn.com/problems/longest-palindromic-substring/
+
+拿到题目：
+1.回文子串是指左右字符串相等的字符串，如abba
+2.想到的解题思路是：
+1）对于长度为偶数的字符串，以整个字符串长度的一半作为回文子字符串的起点len(s)//2
+   count = len(s)//2 
+   i = 0
+
+   while i < count:
+    if s[count-1-i] == s[count+i]:
+       tmp += s[count+i]
+       
+   if(len(tmp)==0):
+     sub = s[0]          //边界值，当整个偶数的字符串都没有相同的字符串的时候，输出第一个字符串即可，属于被忽略的地方，提醒自己写代码的时候要多想想边界值
+   else:
+     sub = tmp[::-1] + tmp[:]
+2)对于长度为基数的字符串，以整个字符串长度的一半作为回文子字符串的起点len(s)//2
+   count = len(s)//2
+   i = 0
+
+   while i <= count:
+    if s[count-i] == s[count+i]:
+        tmp += s[count+i]
+    i = i+1
+   if(len(tmp)==1):
+      sub = s[count]
+   else:
+      sub = tmp[::-1] + tmp[1:]
+3)整个字符串长度为1的时候，可直接输出字符串，属于边界值，易忽略
+    if len(s) == 1:
+       return s
+       
+从整体代码来看，本人觉得已经没有问题，但在实际运行过程中依旧存在不通过的场景，主要集中在选择回文起点的问题上，以上代码强制规定了起点，但对于类似Adam这种的字符串却没有办法覆盖，
+需调整字符串的起点，需遍历整个字符串，这样整体运算较慢，
+
+从网上找了一个大神解法
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        # 如果字符串长度小于2或者s等于它的倒序，则直接返回s
+        if len(s) < 2 or s == s[::-1]:
+            return s
+        n = len(s)
+        # 定义起始索引和最大回文串长度，odd奇，even偶
+        start, maxlen = 0, 1
+        # 因为i=0的话必然是不可能会有超过maxlen情况出现，所以直接从1开始
+        for i in range(1, n):
+            # 取i及i前面的maxlen+2个字符
+            odd = s[i - maxlen - 1:i + 1]  # len(odd)=maxlen+2
+            # 取i及i前面的maxlen+1个字符
+            even = s[i - maxlen:i + 1]  # len(even)=maxlen+1
+            if i - maxlen - 1 >= 0 and odd == odd[::-1]:
+                start = i - maxlen - 1
+                maxlen += 2
+                continue
+            if i - maxlen >= 0 and even == even[::-1]:
+                start = i - maxlen
+                maxlen += 1
+        return s[start:start + maxlen]
+
