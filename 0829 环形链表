@@ -39,7 +39,7 @@ node3.next = node4
 node4.next = node2
 
 #则链表的结构如下：
-![活动图](https://github.com/xiaopan868/python_algorithm/edit/master/企业微信截图_16158978208753.png)
+![活动图](https://github.com/xiaopan868/python_algorithm/blob/master/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_16158978208753.png)
 
 
 # 判断链表是不是闭环
