@@ -20,16 +20,37 @@ https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2
 
 头节点：头节点是链表的第一个节点；尾节点：序列中最后一个节点，由于是最后一个节点，因此它指向null。
 
-class Solution:
-    def hasCycle(self, head: ListNode) -> bool:
+定义一个链表：
+class Node:
+    def __init__(self,cargo = None, next = None):
+        self.cargo = cargo
+        self.next = next
+        
+#定义每一个节点的值
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node4 = Node(4)
+
+#定义节点的连接关系
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node2
+
+#则链表的结构如下：
+
+
+
+# 判断链表是不是闭环
+    def hasCycle(head):
 
         #检查单链表是否仅包含一个节点，是的话，直接返回false
         if(head == None or head.next == None): 
             return False
 
-        #分别将快慢指针指向单链接的头节点
-        slow = head
-        fast = head
+        slow = head           #将慢指针指向单链接的头节点
+        fast = head.next      #将快指针指向单链接的第一个节点
 
         #快慢指针未相遇时，继续循环
         while(slow != fast):
@@ -40,6 +61,8 @@ class Solution:
             slow = slow.next
             fast = fast.next.next
         return True
+        
+print(hasCycle(node1))
 
 
 
